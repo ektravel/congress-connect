@@ -1,0 +1,23 @@
+{
+  "name": "congress-connect",
+  "version": "1.0.0",
+  "description": "Congress Connect App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ektravel/congress-connect.git"
+  },
+  "author": "ektravel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ektravel/congress-connect/issues"
+  },
+  "homepage": "https://github.com/ektravel/congress-connect#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3"
+  }
+}
