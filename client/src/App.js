@@ -1,64 +1,87 @@
 import React, { Component } from 'react';
-import Nav from "./components/Nav/Nav";
 import axios from "axios";
+import Nav from "./components/Nav/Nav";
 import Jumbotron from "./components/Jumbotron/Jumbotron";
 import Button from "./components/Button/Button";
 import { LegislatorsList, Legislator } from "./components/Legislators";
 import './App.css';
-// const axios = require("axios");
-
-// function getLegislators() {
-//   console.log("test");
-//   axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {headers: {'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi'}
-//   })
-//   .then(function({data: {results:members}}){
-//       console.log(JSON.stringify(members));
-//       return (JSON.stringify(members));
-//     }).catch(function(error){
-//       console.log(error);
-//     })
-// }
 
 class App extends Component {
   state = {
     legislators: []
   };
-    
-  onclick = () => {
-    return axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {headers: {'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi'}
-  })
-  .then(response => {
-    console.log( response.data.results[0].members);
-    this.setState({
-      legislators: response.data.results[0].members
-    });
-    console.log(this.state.legislators);
-  })
- .catch(error=>{
-    console.log(error);
- });
-}
+
+  showAll = () => {
+    return axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {
+      headers: { 'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi' }
+    })
+      .then(response => {
+        this.setState({
+          legislators: response.data.results[0].members
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  showNew = () => {
+    return axios.get("https://api.propublica.org/congress/v1/members/new.json", {
+      headers: { 'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi' }
+    })
+      .then(response => {
+        this.setState({
+          legislators: response.data.results[0].members
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  showLeaving = () => {
+    return axios.get("https://api.propublica.org/congress/v1/115/senate/members/leaving.json", {
+      headers: { 'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi' }
+    })
+      .then(response => {
+        this.setState({
+          legislators: response.data.results[0].members
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   render() {
     return (
       <div>
-        <Nav/>
-        <Jumbotron/>
-        <div className="container">
+        <Nav />
+        <Jumbotron />
+        <div className="container text-center">
           <div className="row">
             <div className="col-md-12">
+            <h3 id="welcomeText">Welcome to Congress Connect. Please choose one of the options below.</h3>
               <Button
-               onClick={this.onclick}
-               type="primary"
-               className="searchAll">Search</Button>
+                onClick={this.showAll}
+                type="primary"
+                className="customBtn">All Senators</Button>
+                <Button
+                onClick={this.showNew}
+                type="primary"
+                className="customBtn">New Senators</Button>
+                <Button
+                onClick={this.showLeaving}
+                type="primary"
+                className="customBtn">Leaving Office</Button>
             </div>
           </div>
         </div>
-        <div className="row" id="legislatorsContainer">
-          <div className="col-sm-12">
+        <div className="row justify-content-center" id="legislatorsContainer">
+          <div className="col-sm-5">
             <LegislatorsList>
-               {this.state.legislators.map(legislator => { 
-                 return ( 
+              {this.state.legislators.map(legislator => {
+                return (
                   <Legislator
                     key={legislator.id}
                     title={legislator.title}
@@ -68,86 +91,17 @@ class App extends Component {
                     party={legislator.party}
                     state={legislator.state}
                     phone={legislator.phone}
-                    url={legislator.url}
+                    end_date={legislator.end_date}
+                    status={legislator.status}
                   />
-                 );
-              })} 
+                );
+              })}
             </LegislatorsList>
           </div>
         </div>
-
       </div>
     );
   }
-
-
 }
-
-// function getLegislators() {
-//   console.log("test");
-//   return axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {headers: {'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi'}
-//   })
-//   .then(function({data: {results:members}}){
-//       console.log(JSON.stringify(members));
-//       return (JSON.stringify(members));
-//     }).catch(function(error){
-//       console.log(error);
-//     })
-// }
-
-// class App extends Component {
-
- 
-
-//   handleFormSubmit = event => {
-//     event.preventDefault();
-//     getLegislators()
-//     .then(members => (legislators.push({results:members})))
-//   };
-
-//   render() {
-//     return (
-//       <div>
-//         <Nav/>
-//         <Jumbotron/>
-//         <div className="container">
-//           <div className="row">
-//             <div className="col-md-12">
-//                     <Button
-//                       onClick={this.handleFormSubmit}
-//                       type="primary"
-//                       className="searchAll"
-//                     >
-//                       Search
-//                       </Button>
-//             </div>
-//           </div>
-//         </div>
-//         <div className="row" id="legislatorsContainer">
-//           <div className="col-sm-12">
-//             <LegislatorsList>
-//                {legislators.map(legislator => { 
-//                  return ( 
-//                   <Legislator
-//                     key={legislator.phone}
-//                     title={legislator.title}
-//                     first_name={legislator.first_name}
-//                     last_name={legislator.last_name}
-//                     date_of_birth={legislator.date_of_birth}
-//                     party={legislator.party}
-//                     state={legislator.state}
-//                     phone={legislator.phone}
-//                     url={legislator.url}
-//                   />
-//                  );
-//               })} 
-//             </LegislatorsList>
-//           </div>
-//         </div>
-
-//       </div>
-//     );
-//   }
-// }
 
 export default App;

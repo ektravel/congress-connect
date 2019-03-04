@@ -1,15 +1,15 @@
 import React from "react";
 
 export const Legislator = props => (
-  <li className="list-group-item">
-      <h3>{props.title}</h3>
-      <p>{props.first_name}</p>
-      <p>{props.last_name}</p>
-      <p>{props.date_of_birth}</p>
-      <p>{props.party}</p>
-      <p>{props.state}</p>
-      <p>{props.phone}</p>
-      <a rel="noreferrer noopener" target="_blank" href={props.url}>Website
-      </a>
+  <li className="list-group-item list-group-item-action">
+      <h4>{props.title}</h4>
+      <p><b>First Name: </b>{props.first_name}</p>
+      <p><b>Last Name: </b>{props.last_name}</p>
+      <p>Date of Birth: {props.date_of_birth}</p>
+      <p><b>Political Party: </b>{props.party}</p>
+      <p><b>State: </b>{props.state}</p>
+      <p>Phone Number: {props.phone}</p>
+      <p>{props.end_date}</p>
+      <p>{props.status}</p>
   </li>
 );
