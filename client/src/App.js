@@ -1,84 +1,77 @@
 import React, { Component } from 'react';
 import Nav from "./components/Nav/Nav";
-import Input from "./components/Input/Input";
+import axios from "axios";
+import Jumbotron from "./components/Jumbotron/Jumbotron";
 import Button from "./components/Button/Button";
 import { LegislatorsList, Legislator } from "./components/Legislators";
 import './App.css';
-const axios = require("axios");
+// const axios = require("axios");
 
-function getLegislators() {
-  console.log("test");
-    axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {headers: {'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi'}
-    }).then(function({data: {results}}){
-      console.log(JSON.stringify(results));
-    }).catch(function(error){
-      console.log(error);
-    })
-}
+// function getLegislators() {
+//   console.log("test");
+//   axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {headers: {'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi'}
+//   })
+//   .then(function({data: {results:members}}){
+//       console.log(JSON.stringify(members));
+//       return (JSON.stringify(members));
+//     }).catch(function(error){
+//       console.log(error);
+//     })
+// }
 
 class App extends Component {
   state = {
-    legislators: [],
-    legislatorSearch: ""
+    legislators: []
   };
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
+    
+  onclick = () => {
+    return axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {headers: {'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi'}
+  })
+  .then(response => {
+    console.log( response.data.results[0].members);
     this.setState({
-      [name]: value
+      legislators: response.data.results[0].members
     });
-  };
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    getLegislators();
-  };
+    console.log(this.state.legislators);
+  })
+ .catch(error=>{
+    console.log(error);
+ });
+}
 
   render() {
     return (
       <div>
-        <Nav />
+        <Nav/>
+        <Jumbotron/>
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <form>
-                <div className="row">
-                  <div className="col-sm-10">
-                    <Input
-                      name="legislatorSearch"
-                      value={this.state.legislatorSearch}
-                      onChange={this.handleInputChange}
-                      placeholder="Search For a Legislator"
-                    />
-                  </div>
-                  <div className="col-sm-10">
-                    <Button
-                      onClick={this.handleFormSubmit}
-                      type="success"
-                      className="input-lg"
-                    >
-                      Search
-                      </Button>
-                  </div>
-                </div>
-              </form>
+              <Button
+               onClick={this.onclick}
+               type="primary"
+               className="searchAll">Search</Button>
             </div>
           </div>
         </div>
-        <div className="row">
+        <div className="row" id="legislatorsContainer">
           <div className="col-sm-12">
             <LegislatorsList>
-              {this.state.legislators.map(legislator => {
-                return (
+               {this.state.legislators.map(legislator => { 
+                 return ( 
                   <Legislator
-                    // key={recipe.title}
-                    // title={recipe.title}
-                    // href={recipe.href}
-                    // ingredients={recipe.ingredients}
-                    // thumbnail={recipe.thumbnail}
+                    key={legislator.id}
+                    title={legislator.title}
+                    first_name={legislator.first_name}
+                    last_name={legislator.last_name}
+                    date_of_birth={legislator.date_of_birth}
+                    party={legislator.party}
+                    state={legislator.state}
+                    phone={legislator.phone}
+                    url={legislator.url}
                   />
-                );
-              })}
+                 );
+              })} 
             </LegislatorsList>
           </div>
         </div>
@@ -86,6 +79,75 @@ class App extends Component {
       </div>
     );
   }
+
+
 }
+
+// function getLegislators() {
+//   console.log("test");
+//   return axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {headers: {'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi'}
+//   })
+//   .then(function({data: {results:members}}){
+//       console.log(JSON.stringify(members));
+//       return (JSON.stringify(members));
+//     }).catch(function(error){
+//       console.log(error);
+//     })
+// }
+
+// class App extends Component {
+
+ 
+
+//   handleFormSubmit = event => {
+//     event.preventDefault();
+//     getLegislators()
+//     .then(members => (legislators.push({results:members})))
+//   };
+
+//   render() {
+//     return (
+//       <div>
+//         <Nav/>
+//         <Jumbotron/>
+//         <div className="container">
+//           <div className="row">
+//             <div className="col-md-12">
+//                     <Button
+//                       onClick={this.handleFormSubmit}
+//                       type="primary"
+//                       className="searchAll"
+//                     >
+//                       Search
+//                       </Button>
+//             </div>
+//           </div>
+//         </div>
+//         <div className="row" id="legislatorsContainer">
+//           <div className="col-sm-12">
+//             <LegislatorsList>
+//                {legislators.map(legislator => { 
+//                  return ( 
+//                   <Legislator
+//                     key={legislator.phone}
+//                     title={legislator.title}
+//                     first_name={legislator.first_name}
+//                     last_name={legislator.last_name}
+//                     date_of_birth={legislator.date_of_birth}
+//                     party={legislator.party}
+//                     state={legislator.state}
+//                     phone={legislator.phone}
+//                     url={legislator.url}
+//                   />
+//                  );
+//               })} 
+//             </LegislatorsList>
+//           </div>
+//         </div>
+
+//       </div>
+//     );
+//   }
+// }
 
 export default App;

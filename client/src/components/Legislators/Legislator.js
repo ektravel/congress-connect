@@ -1,22 +1,15 @@
 import React from "react";
 
-// Legislator renders a bootstrap list item containing data from the ProPublica api call
 export const Legislator = props => (
   <li className="list-group-item">
-    {/* <Container>
-      <Row>
-        <Col size="xs-4 sm-2">
-          <Thumbnail src={props.thumbnail || "https://placehold.it/300x300"} />
-        </Col>
-        <Col size="xs-8 sm-9">
-          <h3>{props.title}</h3>
-          <p>Ingredients: {props.ingredients}</p>
-          <a rel="noreferrer noopener" target="_blank" href={props.href}>
-            Go to recipe!
-          </a>
-        </Col>
-      </Row>
-    </Container> */}
-    Legislator Information Goes here 
+      <h3>{props.title}</h3>
+      <p>{props.first_name}</p>
+      <p>{props.last_name}</p>
+      <p>{props.date_of_birth}</p>
+      <p>{props.party}</p>
+      <p>{props.state}</p>
+      <p>{props.phone}</p>
+      <a rel="noreferrer noopener" target="_blank" href={props.url}>Website
+      </a>
   </li>
 );
