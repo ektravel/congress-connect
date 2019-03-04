@@ -2,3 +2,10 @@
     margin-right: 45px;
     margin-bottom: 50px;
 }
+
+@media screen and (max-width:800px){
+    .customBtn{
+        margin-right:15px;
+        margin-left:15px;
+    }
+}
