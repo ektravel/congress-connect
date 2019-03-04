@@ -77,7 +77,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <div className="row justify-content-center" id="legislatorsContainer">
+        <div className="row justify-content-center">
           <div className="col-sm-5">
             <LegislatorsList>
               {this.state.legislators.map(legislator => {
