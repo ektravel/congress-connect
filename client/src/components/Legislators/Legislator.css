@@ -1,3 +1,13 @@
 .showInfoNo{
     display: none;
 }
+
+.showR{
+    font-weight: bold;
+    color: rgb(226, 43, 43);
+}
+
+.showD{
+    font-weight: bold;
+    color: rgb(46, 96, 204);
+}

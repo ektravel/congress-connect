@@ -7,7 +7,7 @@ export const Legislator = props => (
       <p><b>First Name: </b>{props.first_name}</p>
       <p><b>Last Name: </b>{props.last_name}</p>
       <p className={props.date_of_birth ? "ShowInfoYes" : "showInfoNo"}><b>Date of Birth: </b>{props.date_of_birth}</p>
-      <p><b>Political Party: </b>{props.party}</p>
+      <p><b>Political Party: </b><span className={props.party === "R" ? "showR" : "showD"}>{props.party}</span></p>
       <p><b>State: </b>{props.state}</p>
       <p className={props.phone ? "ShowInfoYes" : "showInfoNo"}><b>Phone Number: </b>{props.phone}</p>
       <p className={props.end_date ? "ShowInfoYes" : "showInfoNo"}><b>End of Term: </b>{props.end_date}</p>

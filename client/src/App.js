@@ -97,7 +97,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <div className="row justify-content-center">
+        <div className="row justify-content-center membersContainer">
           <div className="col-sm-5">
             <LegislatorsList>
               {currentLegislatos.map(legislator => {
