@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import axios from "axios";
 import Nav from "./components/Nav/Nav";
 import Jumbotron from "./components/Jumbotron/Jumbotron";
 import Button from "./components/Button/Button";
 import { LegislatorsList, Legislator } from "./components/Legislators";
 import './App.css';
+import apiRoutes from "./utils/apiRoutes";
 
 class App extends Component {
   state = {
@@ -12,9 +12,7 @@ class App extends Component {
   };
 
   showAll = () => {
-    return axios.get("https://api.propublica.org/congress/v1/115/senate/members.json", {
-      headers: { 'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi' }
-    })
+    apiRoutes.getData("https://api.propublica.org/congress/v1/115/senate/members.json")
       .then(response => {
         this.setState({
           legislators: response.data.results[0].members
@@ -26,9 +24,7 @@ class App extends Component {
   }
 
   showNew = () => {
-    return axios.get("https://api.propublica.org/congress/v1/members/new.json", {
-      headers: { 'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi' }
-    })
+    apiRoutes.getData("https://api.propublica.org/congress/v1/members/new.json")
       .then(response => {
         this.setState({
           legislators: response.data.results[0].members
@@ -40,9 +36,7 @@ class App extends Component {
   }
 
   showLeaving = () => {
-    return axios.get("https://api.propublica.org/congress/v1/115/senate/members/leaving.json", {
-      headers: { 'X-API-KEY': 'uB1NbuOHrhIB1qI3ZsCyrOXB1EjPZe7EACkpqZoi' }
-    })
+    apiRoutes.getData("https://api.propublica.org/congress/v1/115/senate/members/leaving.json")
       .then(response => {
         this.setState({
           legislators: response.data.results[0].members
@@ -61,16 +55,16 @@ class App extends Component {
         <div className="container text-center">
           <div className="row">
             <div className="col-md-12">
-            <h3 id="welcomeText">Welcome to Congress Connect. Please choose one of the options below.</h3>
+              <h3 id="welcomeText">Welcome to Congress Connect. Please choose one of the options below.</h3>
               <Button
                 onClick={this.showAll}
                 type="primary"
                 className="customBtn">All Senators</Button>
-                <Button
+              <Button
                 onClick={this.showNew}
                 type="primary"
                 className="customBtn">New Senators</Button>
-                <Button
+              <Button
                 onClick={this.showLeaving}
                 type="primary"
                 className="customBtn">Leaving Office</Button>
