@@ -7,3 +7,13 @@
   margin-top: 20px;
   color: rgb(110, 107, 107);
 }
+
+.customPage{
+  padding: .45rem .55rem;
+  max-width: 50px;
+}
+
+.pagination{
+  margin-top: 35px;
+  margin-bottom: 35px;
+}

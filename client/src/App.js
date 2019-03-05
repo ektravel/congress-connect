@@ -5,16 +5,28 @@ import Button from "./components/Button/Button";
 import { LegislatorsList, Legislator } from "./components/Legislators";
 import './App.css';
 import apiRoutes from "./utils/apiRoutes";
+import Pages from "./components/Pages/Pages";
 
 class App extends Component {
-  state = {
-    legislators: [],
+  constructor() {
+    super();
+    this.state = {
+      legislators: [],
+      currentPage: 1,
+      legislatorsPerPage: 10
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-  };
-
+  handleClick(event) {
+    this.setState({
+      currentPage: Number(event.target.id)
+    });
+  }
 
   showAll = () => {
-    apiRoutes.getData("https://api.propublica.org/congress/v1/115/senate/members.json")
+      this.setState({currentPage:1})
+      apiRoutes.getData("https://api.propublica.org/congress/v1/115/senate/members.json")
       .then(response => {
         this.setState({
           legislators: response.data.results[0].members
@@ -26,6 +38,7 @@ class App extends Component {
   }
 
   showNew = () => {
+    this.setState({currentPage:1})
     apiRoutes.getData("https://api.propublica.org/congress/v1/members/new.json")
       .then(response => {
         this.setState({
@@ -38,6 +51,7 @@ class App extends Component {
   }
 
   showLeaving = () => {
+    this.setState({currentPage:1})
     apiRoutes.getData("https://api.propublica.org/congress/v1/115/senate/members/leaving.json")
       .then(response => {
         this.setState({
@@ -50,6 +64,16 @@ class App extends Component {
   }
 
   render() {
+    const { legislators, currentPage, legislatorsPerPage } = this.state;
+    const indexOfLastLegislator = currentPage * legislatorsPerPage;
+    const indexOfFirstLegislator = indexOfLastLegislator - legislatorsPerPage;
+    const currentLegislatos = legislators.slice(indexOfFirstLegislator, indexOfLastLegislator);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(legislators.length / legislatorsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
     return (
       <div>
         <Nav />
@@ -76,7 +100,7 @@ class App extends Component {
         <div className="row justify-content-center">
           <div className="col-sm-5">
             <LegislatorsList>
-              {this.state.legislators.map(legislator => {
+              {currentLegislatos.map(legislator => {
                 return (
                   <Legislator
                     key={legislator.id}
@@ -93,6 +117,20 @@ class App extends Component {
                 );
               })}
             </LegislatorsList>
+          </div>
+        </div>
+        <div className="row justify-content-center pagination">
+          <div className="col-sm-5">
+            <Pages>{pageNumbers.map(number => {
+              return (
+                <li className="list-group-item list-group-item-action customPage"
+                  key={Math.random()}
+                  id={number}
+                  onClick={this.handleClick}
+                >{number}</li>
+              );
+            })}
+            </Pages>
           </div>
         </div>
       </div>
