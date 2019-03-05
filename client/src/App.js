@@ -8,8 +8,10 @@ import apiRoutes from "./utils/apiRoutes";
 
 class App extends Component {
   state = {
-    legislators: []
+    legislators: [],
+
   };
+
 
   showAll = () => {
     apiRoutes.getData("https://api.propublica.org/congress/v1/115/senate/members.json")
